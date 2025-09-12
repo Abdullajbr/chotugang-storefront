@@ -1,0 +1,185 @@
+<div class="text-slider-wrapper" style="background-color: {{ section.settings.background_color }};">
+  <div class="text-slider-container">
+    <div class="text-slider" style="animation-duration: {{ section.settings.scroll_speed }}s;">
+      {% for block in section.blocks %}
+        <div class="text-slide" {{ block.shopify_attributes }}>
+          <span class="text-slide-content" style="color: {{ block.settings.text_color }};">{{ block.settings.slide_text }}</span>
+          <span class="text-slide-separator">•</span>
+        </div>
+      {% endfor %}
+      
+      {% comment %} Duplicate the slides for a seamless loop {% endcomment %}
+      {% for block in section.blocks %}
+        <div class="text-slide">
+          <span class="text-slide-content" style="color: {{ block.settings.text_color }};">{{ block.settings.slide_text }}</span>
+          <span class="text-slide-separator">•</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sliding Text Banner",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll Speed",
+      "info": "Lower number = faster scroll",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Sliding Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "slide_text",
+          "label": "Text",
+          "default": "Tiny Threads, Big Smiles 😊"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sliding Text Banner",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "slide_text": "Tiny Threads, Big Smiles 😊",
+            "text_color": "#FF5757"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "slide_text": "Style That Grows With Them",
+            "text_color": "#4CAF50"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "slide_text": "Where Play Meets Fashion",
+            "text_color": "#2196F3"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "slide_text": "Dressing Childhood in Color",
+            "text_color": "#9C27B0"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "slide_text": "Made for Giggles & Adventures",
+            "text_color": "#FF9800"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .text-slider-wrapper {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .text-slider-container {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .text-slider {
+    display: flex;
+    white-space: nowrap;
+    animation: slider-scroll linear infinite;
+    will-change: transform;
+  }
+  
+  .text-slide {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .text-slide-content {
+    font-family: var(--typeHeaderPrimary), var(--typeHeaderFallback);
+    font-weight: var(--typeHeaderWeight);
+    font-style: var(--typeHeaderStyle);
+    font-size: 24px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  
+  .text-slide-separator {
+    margin: 0 20px;
+    font-size: 24px;
+    opacity: 0.5;
+  }
+  
+  @keyframes slider-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .text-slide-content {
+      font-size: 18px;
+    }
+    
+    .text-slide-separator {
+      margin: 0 10px;
+      font-size: 18px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var textSliderElements = document.querySelectorAll('.text-slider');
+    
+    // Check if we have any text sliders on the page
+    if (textSliderElements.length > 0) {
+      // Make sure the animation is playing correctly
+      textSliderElements.forEach(function(slider) {
+        // Ensure the animation is playing
+        slider.style.animationPlayState = 'running';
+      });
+    }
+  });
+</script>
