@@ -855,6 +855,58 @@
           "background_color": "#ff0000",
           "slide_speed": 3
         }
+      },
+      "text_slider_FnBRfh": {
+        "type": "text-slider",
+        "blocks": {
+          "text_fx8eXM": {
+            "type": "text",
+            "settings": {
+              "slide_text": "Tiny Threads, Big Smiles",
+              "text_color": "#ff5757"
+            }
+          },
+          "text_Ei9pUp": {
+            "type": "text",
+            "settings": {
+              "slide_text": "Style That Grows With Them",
+              "text_color": "#4caf50"
+            }
+          },
+          "text_7YPjaW": {
+            "type": "text",
+            "settings": {
+              "slide_text": "Where Play Meets Fashion",
+              "text_color": "#2196f3"
+            }
+          },
+          "text_MkK4Mh": {
+            "type": "text",
+            "settings": {
+              "slide_text": "Dressing Childhood in Color",
+              "text_color": "#9c27b0"
+            }
+          },
+          "text_9pxMWB": {
+            "type": "text",
+            "settings": {
+              "slide_text": "Made for Giggles & Adventures",
+              "text_color": "#ff9800"
+            }
+          }
+        },
+        "block_order": [
+          "text_fx8eXM",
+          "text_Ei9pUp",
+          "text_7YPjaW",
+          "text_MkK4Mh",
+          "text_9pxMWB"
+        ],
+        "name": "Sliding Text Banner",
+        "settings": {
+          "background_color": "#FFFFFF",
+          "scroll_speed": 10
+        }
       }
     },
     "content_for_index": [
@@ -863,6 +915,7 @@
       "1525912530555",
       "slideshow_r4RnAC",
       "1499789718857",
+      "text_slider_FnBRfh",
       "testimonials_YHYzxn",
       "1581119895210",
       "1581120026212"
