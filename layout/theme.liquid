@@ -34,56 +34,16 @@
   <!-- Theme Javascript -->
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
 
-  <style>
-    .announcement-bar {
-      width: 100%;
-      background-color: #FF0000;
-      padding: 10px 0;
-      color: white;
-      text-align: center;
-    }
-    
-    .announcement-text {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 600;
-      display: none;
-    }
-    
-    .announcement-text.active {
-      display: block;
-    }
-    
-    @media screen and (max-width: 768px) {
-      .announcement-text {
-        font-size: 12px;
-      }
-    }
-  </style>
-
   {{ content_for_header }}
-
 </head>
 
 <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
   <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
-  <!-- Announcement Bar directly in theme.liquid -->
-  <div class="announcement-bar">
-    <div class="page-width">
-      <p class="announcement-text active" id="announcement-1">Free Shipping on Orders Over Rs. 2,000 🚚✨</p>
-      <p class="announcement-text" id="announcement-2">Back-to-School Sale 🎒 Up to 30% OFF!</p>
-      <p class="announcement-text" id="announcement-3">Buy 2, Get 1 FREE 👕👕👕</p>
-      <p class="announcement-text" id="announcement-4">Limited Time Only ⏳ Don't Miss Out!</p>
-      <p class="announcement-text" id="announcement-5">New Arrivals Just Dropped 🌈 Shop Now!</p>
-    </div>
-  </div>
-
   <div id="PageContainer" class="page-container">
     <div class="transition-body">
       
-      <!-- You're now using the inline announcement bar above, so remove this section reference -->
-      <!-- {% section 'announcement-bar' %} -->
+      {% section 'announcement-bar' %}
       
       <header class="site-header">
         {% section 'header' %}
@@ -105,32 +65,5 @@
     {% include 'cart-drawer' %}
   {% endif %}
   
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var announcements = document.querySelectorAll('.announcement-text');
-      var currentAnnouncement = 0;
-      
-      function showAnnouncement(n) {
-        // Hide all announcements
-        for (var i = 0; i < announcements.length; i++) {
-          announcements[i].classList.remove('active');
-        }
-        
-        // Show the current announcement
-        announcements[n].classList.add('active');
-      }
-      
-      function nextAnnouncement() {
-        currentAnnouncement = (currentAnnouncement + 1) % announcements.length;
-        showAnnouncement(currentAnnouncement);
-      }
-      
-      // Initialize
-      showAnnouncement(currentAnnouncement);
-      
-      // Auto advance announcements every 5 seconds
-      setInterval(nextAnnouncement, 5000);
-    });
-  </script>
 </body>
 </html>
