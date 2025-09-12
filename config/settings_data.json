@@ -292,7 +292,7 @@
         "custom_css": [],
         "settings": {
           "title": "All Categories",
-          "divider": true,
+          "divider": false,
           "per_row": 2,
           "enable_gutter": true
         }
@@ -904,8 +904,8 @@
         ],
         "name": "Sliding Text Banner",
         "settings": {
-          "background_color": "#FFFFFF",
-          "scroll_speed": 10
+          "background_color": "#ffffff",
+          "scroll_speed": 17
         }
       }
     },
