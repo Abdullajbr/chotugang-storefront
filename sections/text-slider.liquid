@@ -4,7 +4,7 @@
       {% for block in section.blocks %}
         <div class="text-slide" {{ block.shopify_attributes }}>
           <span class="text-slide-content" style="color: {{ block.settings.text_color }};">{{ block.settings.slide_text }}</span>
-          <span class="text-slide-separator">•</span>
+          <span class="text-slide-separator">&nbsp;&nbsp;&nbsp;</span>
         </div>
       {% endfor %}
       
@@ -12,7 +12,7 @@
       {% for block in section.blocks %}
         <div class="text-slide">
           <span class="text-slide-content" style="color: {{ block.settings.text_color }};">{{ block.settings.slide_text }}</span>
-          <span class="text-slide-separator">•</span>
+          <span class="text-slide-separator">&nbsp;&nbsp;&nbsp;</span>
         </div>
       {% endfor %}
     </div>
@@ -32,13 +32,13 @@
     {
       "type": "range",
       "id": "scroll_speed",
-      "min": 3,
-      "max": 50,
-      "step": 5,
+      "min": 1,
+      "max": 30,
+      "step": 1,
       "unit": "s",
       "label": "Scroll Speed",
       "info": "Lower number = faster scroll",
-      "default": 30
+      "default": 15
     }
   ],
   "blocks": [
@@ -108,18 +108,6 @@
 {% endschema %}
 
 <style>
-  /* ... other styles remain unchanged ... */
-  
-  .text-slide-content {
-    font-family: "Caprasimo"; /* Updated to explicitly use Caprasimo */
-    font-weight: var(--typeHeaderWeight);
-    font-style: var(--typeHeaderStyle);
-    font-size: 24px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  
-  /* ... other styles remain unchanged ... */
   .text-slider-wrapper {
     width: 100%;
     padding: 20px 0;
@@ -130,13 +118,15 @@
   .text-slider-container {
     width: 100%;
     overflow: hidden;
+    position: relative;
   }
   
   .text-slider {
-    display: flex;
+    display: inline-flex;
     white-space: nowrap;
     animation: slider-scroll linear infinite;
     will-change: transform;
+    position: relative;
   }
   
   .text-slide {
@@ -146,9 +136,8 @@
   }
   
   .text-slide-content {
-    font-family: var(--typeHeaderPrimary), var(--typeHeaderFallback);
-    font-weight: var(--typeHeaderWeight);
-    font-style: var(--typeHeaderStyle);
+    font-family: "Caprasimo", serif;
+    font-weight: 400;
     font-size: 24px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -157,7 +146,6 @@
   .text-slide-separator {
     margin: 0 20px;
     font-size: 24px;
-    opacity: 0.5;
   }
   
   @keyframes slider-scroll {
@@ -176,7 +164,6 @@
     
     .text-slide-separator {
       margin: 0 10px;
-      font-size: 18px;
     }
   }
 </style>
@@ -187,10 +174,19 @@
     
     // Check if we have any text sliders on the page
     if (textSliderElements.length > 0) {
-      // Make sure the animation is playing correctly
       textSliderElements.forEach(function(slider) {
         // Ensure the animation is playing
         slider.style.animationPlayState = 'running';
+        
+        // Make sure there's enough content for a smooth loop
+        const firstSlide = slider.querySelector('.text-slide');
+        if (firstSlide) {
+          const sliderWidth = slider.scrollWidth / 2; // Half because we duplicated the slides
+          
+          // Set animation duration based on content length for smoother scrolling
+          const speed = parseFloat(slider.style.animationDuration) || 15;
+          slider.style.animationDuration = speed + 's';
+        }
       });
     }
   });
