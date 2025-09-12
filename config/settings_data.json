@@ -811,23 +811,44 @@
           "announcement_pWBhie": {
             "type": "announcement",
             "settings": {
-              "announcement_text": "dsefghjk"
+              "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
             }
           },
           "announcement_KETpHE": {
             "type": "announcement",
             "settings": {
-              "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
+              "announcement_text": "Back-to-School Sale 🎒 Up to 30% OFF!"
+            }
+          },
+          "announcement_QBqkk6": {
+            "type": "announcement",
+            "settings": {
+              "announcement_text": "Limited Time Only ⏳ Don’t Miss Out!"
+            }
+          },
+          "announcement_3Ukcrc": {
+            "type": "announcement",
+            "settings": {
+              "announcement_text": "New Arrivals Just Dropped 🌈 Shop Now!"
+            }
+          },
+          "announcement_hQmNnb": {
+            "type": "announcement",
+            "settings": {
+              "announcement_text": "Buy 2, Get 1 FREE 👕👕👕"
             }
           }
         },
         "block_order": [
           "announcement_pWBhie",
-          "announcement_KETpHE"
+          "announcement_KETpHE",
+          "announcement_QBqkk6",
+          "announcement_3Ukcrc",
+          "announcement_hQmNnb"
         ],
         "settings": {
           "background_color": "#ff0000",
-          "slide_speed": 5
+          "slide_speed": 3
         }
       }
     },
