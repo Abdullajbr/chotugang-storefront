@@ -1,8 +1,9 @@
+jrfma/Documents/chotu-gang website/sections/announcement-bar.liquid
 <div class="announcement-bar" style="background-color: {{ section.settings.background_color }};">
   <div class="page-width">
     <div class="announcement-slider">
       {% for block in section.blocks %}
-        <div class="announcement-slide">
+        <div class="announcement-slide" {{ block.shopify_attributes }}>
           <p class="announcement-text">{{ block.settings.announcement_text }}</p>
         </div>
       {% endfor %}
@@ -19,6 +20,16 @@
       "id": "background_color",
       "label": "Background Color",
       "default": "#FF0000"
+    },
+    {
+      "type": "range",
+      "id": "slide_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Slide Change Speed",
+      "default": 5
     }
   ],
   "blocks": [
@@ -41,13 +52,34 @@
       "category": "Promotional",
       "blocks": [
         {
-          "type": "announcement"
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
+          }
         },
         {
-          "type": "announcement"
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Back-to-School Sale 🎒 Up to 30% OFF!"
+          }
         },
         {
-          "type": "announcement"
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Buy 2, Get 1 FREE 👕👕👕"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Limited Time Only ⏳ Don't Miss Out!"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "New Arrivals Just Dropped 🌈 Shop Now!"
+          }
         }
       ]
     }
@@ -61,6 +93,8 @@
     padding: 10px 0;
     color: white;
     text-align: center;
+    position: relative;
+    z-index: 5;
   }
   
   .announcement-text {
@@ -72,6 +106,22 @@
   .announcement-slider {
     position: relative;
     overflow: hidden;
+    height: 20px; /* Fixed height to prevent jumping */
+  }
+  
+  .announcement-slide {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: none;
+  }
+  
+  .announcement-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
   }
   
   @media screen and (max-width: 768px) {
@@ -85,15 +135,21 @@
   document.addEventListener('DOMContentLoaded', function() {
     var slides = document.querySelectorAll('.announcement-slide');
     var currentSlide = 0;
+    var slideSpeed = {{ section.settings.slide_speed | default: 5 }} * 1000;
+    
+    // Set initial state
+    if (slides.length > 0) {
+      slides[0].classList.add('active');
+    }
     
     function showSlide(n) {
       // Hide all slides
       for (var i = 0; i < slides.length; i++) {
-        slides[i].style.display = 'none';
+        slides[i].classList.remove('active');
       }
       
-      // Show the current slide
-      slides[n].style.display = 'block';
+      // Show the current slide with animation
+      slides[n].classList.add('active');
     }
     
     function nextSlide() {
@@ -101,10 +157,9 @@
       showSlide(currentSlide);
     }
     
-    // Initialize
-    showSlide(currentSlide);
-    
-    // Auto advance slides every 5 seconds
-    setInterval(nextSlide, 5000);
+    // Only setup carousel if there's more than one slide
+    if (slides.length > 1) {
+      setInterval(nextSlide, slideSpeed);
+    }
   });
 </script>
