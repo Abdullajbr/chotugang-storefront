@@ -1,110 +1,69 @@
-<div class="announcement-bar" style="background-color: {{ section.settings.background_color }};">
-  <div class="page-width">
-    <div class="announcement-slider">
-      {% for block in section.blocks %}
-        <div class="announcement-slide">
-          <p class="announcement-text">{{ block.settings.announcement_text }}</p>
-        </div>
-      {% endfor %}
+<!doctype html>
+<html class="no-js" lang="{{ shop.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_button }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon -%}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png" />
+  {%- endif -%}
+
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Social Meta Tags -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="{{ page_description | default: shop.description | default: shop.name }}">
+  {% if settings.social_image_enable %}
+    <meta property="og:image" content="{{ settings.share_image | img_url: '1200x1200' }}">
+    <meta property="og:image:secure_url" content="{{ settings.share_image | img_url: '1200x1200' }}">
+  {% endif %}
+
+  <!-- Theme Stylesheet -->
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- Theme Javascript -->
+  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  <div id="PageContainer" class="page-container">
+    <div class="transition-body">
+      
+      {% section 'announcement-bar' %}
+      
+      <header class="site-header">
+        {% section 'header' %}
+      </header>
+
+      <main class="main-content" id="MainContent">
+        {{ content_for_layout }}
+      </main>
+
+      <footer class="site-footer">
+        {% section 'footer' %}
+      </footer>
+
     </div>
   </div>
-</div>
 
-{% schema %}
-{
-  "name": "Announcement Bar",
-  "settings": [
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#FF0000"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "announcement",
-      "name": "Announcement",
-      "settings": [
-        {
-          "type": "text",
-          "id": "announcement_text",
-          "label": "Announcement Text",
-          "default": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Announcement Bar",
-      "category": "Promotional",
-      "blocks": [
-        {
-          "type": "announcement"
-        },
-        {
-          "type": "announcement"
-        },
-        {
-          "type": "announcement"
-        }
-      ]
-    }
-  ]
-}
-{% endschema %}
-
-<style>
-  .announcement-bar {
-    width: 100%;
-    padding: 10px 0;
-    color: white;
-    text-align: center;
-  }
+  <!-- Additional Scripts -->
+  {% if settings.cart_type == 'drawer' %}
+    {% include 'cart-drawer' %}
+  {% endif %}
   
-  .announcement-text {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  
-  .announcement-slider {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .announcement-text {
-      font-size: 12px;
-    }
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var slides = document.querySelectorAll('.announcement-slide');
-    var currentSlide = 0;
-    
-    function showSlide(n) {
-      // Hide all slides
-      for (var i = 0; i < slides.length; i++) {
-        slides[i].style.display = 'none';
-      }
-      
-      // Show the current slide
-      slides[n].style.display = 'block';
-    }
-    
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
-    }
-    
-    // Initialize
-    showSlide(currentSlide);
-    
-    // Auto advance slides every 5 seconds
-    setInterval(nextSlide, 5000);
-  });
-</script>
+</body>
+</html>
