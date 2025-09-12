@@ -1,8 +1,8 @@
-<div class="announcement-bar" style="background-color: {{ section.settings.background_color }};">
+<div id="announcementBar" class="announcement-bar" style="background-color: {{ section.settings.background_color }};">
   <div class="page-width">
     <div class="announcement-slider">
       {% for block in section.blocks %}
-        <div class="announcement-slide{% if forloop.first %} active{% endif %}" {{ block.shopify_attributes }}>
+        <div class="announcement-slide{% if forloop.first %} active{% endif %}" data-color="{{ block.settings.slide_color }}" {{ block.shopify_attributes }}>
           <p class="announcement-text">{{ block.settings.announcement_text }}</p>
         </div>
       {% endfor %}
@@ -17,7 +17,7 @@
     {
       "type": "color",
       "id": "background_color",
-      "label": "Background Color",
+      "label": "Default Background Color",
       "default": "#FF0000"
     },
     {
@@ -41,6 +41,12 @@
           "id": "announcement_text",
           "label": "Announcement Text",
           "default": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
+        },
+        {
+          "type": "color",
+          "id": "slide_color",
+          "label": "Slide Background Color",
+          "default": "#FF0000"
         }
       ]
     }
@@ -53,31 +59,36 @@
         {
           "type": "announcement",
           "settings": {
-            "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
+            "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨",
+            "slide_color": "#ff1aff"
           }
         },
         {
           "type": "announcement",
           "settings": {
-            "announcement_text": "Back-to-School Sale 🎒 Up to 30% OFF!"
+            "announcement_text": "Back-to-School Sale 🎒 Up to 30% OFF!",
+            "slide_color": "#ffff00"
           }
         },
         {
           "type": "announcement",
           "settings": {
-            "announcement_text": "Buy 2, Get 1 FREE 👕👕👕"
+            "announcement_text": "Buy 2, Get 1 FREE 👕👕👕",
+            "slide_color": "#ff6b2c"
           }
         },
         {
           "type": "announcement",
           "settings": {
-            "announcement_text": "Limited Time Only ⏳ Don't Miss Out!"
+            "announcement_text": "Limited Time Only ⏳ Don't Miss Out!",
+            "slide_color": "#33cfff"
           }
         },
         {
           "type": "announcement",
           "settings": {
-            "announcement_text": "New Arrivals Just Dropped 🌈 Shop Now!"
+            "announcement_text": "New Arrivals Just Dropped 🌈 Shop Now!",
+            "slide_color": "#00c853"
           }
         }
       ]
@@ -94,6 +105,7 @@
     text-align: center;
     position: relative;
     z-index: 5;
+    transition: background-color 0.5s ease;
   }
   
   .announcement-text {
@@ -140,6 +152,8 @@
     var slides = document.querySelectorAll('.announcement-slide');
     var currentSlide = 0;
     var slideSpeed = {{ section.settings.slide_speed | default: 5 }} * 1000;
+    var announcementBar = document.getElementById('announcementBar');
+    var defaultColors = ["#ff1aff", "#ffff00", "#ff6b2c", "#33cfff", "#00c853"];
     
     function showSlide(n) {
       // Hide all slides
@@ -149,6 +163,17 @@
       
       // Show the current slide with animation
       slides[n].classList.add('active');
+      
+      // Change the background color of the announcement bar
+      var slideColor = slides[n].getAttribute('data-color');
+      
+      // If no custom color is set, use the default colors in sequence
+      if (!slideColor || slideColor === "") {
+        slideColor = defaultColors[n % defaultColors.length];
+      }
+      
+      // Apply the color
+      announcementBar.style.backgroundColor = slideColor;
     }
     
     function nextSlide() {
@@ -158,14 +183,14 @@
     
     // Only setup carousel if there's more than one slide
     if (slides.length > 1) {
-      // Make sure first slide is visible initially
-      slides[0].classList.add('active');
+      // Make sure first slide is visible initially with its color
+      showSlide(0);
       
       // Start slideshow
       setInterval(nextSlide, slideSpeed);
     } else if (slides.length === 1) {
-      // If only one slide, make sure it's visible
-      slides[0].classList.add('active');
+      // If only one slide, make sure it's visible with its color
+      showSlide(0);
     }
   });
 </script>
