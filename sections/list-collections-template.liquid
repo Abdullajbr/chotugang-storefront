@@ -47,7 +47,21 @@
       {% endfor %}
     {% endif %}
   </div>
+  
+  {% if section.settings.show_view_all and section.settings.display_type == 'selected' %}
+    <div class="text-center view-all-button-container">
+      <a href="{{ routes.collections_url }}" class="btn{% if section.settings.view_all_style == 'link' %} btn--link{% endif %}">
+        {{ section.settings.view_all_text }}
+      </a>
+    </div>
+  {% endif %}
 </div>
+
+<style>
+  .view-all-button-container {
+    margin-top: 30px;
+  }
+</style>
 
 {% schema %}
   {
@@ -137,6 +151,39 @@
           {
             "value": "5",
             "label": "5"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "View All Button"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_view_all",
+        "label": "Show 'View All' button",
+        "default": true,
+        "info": "Only shown when using 'Selected' collections"
+      },
+      {
+        "type": "text",
+        "id": "view_all_text",
+        "label": "Button text",
+        "default": "See All Collections"
+      },
+      {
+        "type": "select",
+        "id": "view_all_style",
+        "label": "Button style",
+        "default": "primary",
+        "options": [
+          {
+            "value": "primary",
+            "label": "Primary button"
+          },
+          {
+            "value": "link",
+            "label": "Link button"
           }
         ]
       }
