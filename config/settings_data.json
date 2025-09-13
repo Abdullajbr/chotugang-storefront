@@ -294,7 +294,10 @@
           "title": "All Categories",
           "divider": false,
           "per_row": 2,
-          "enable_gutter": true
+          "enable_gutter": true,
+          "show_view_all": true,
+          "view_all_text": "See All Collections",
+          "view_all_style": "primary"
         }
       },
       "product-sections-template": {
@@ -910,6 +913,41 @@
           "background_color": "#ffffff",
           "scroll_speed": 17
         }
+      },
+      "horz_slidershow_ETVX3r": {
+        "type": "horz-slidershow",
+        "blocks": {
+          "image_fMYkDU": {
+            "type": "image",
+            "settings": {
+              "top_subheading": "",
+              "title": "",
+              "title_size": 60,
+              "subheading": "",
+              "link": "",
+              "link_text": "Optional button",
+              "link_2": "",
+              "link_text_2": "",
+              "color_accent": "rgba(0,0,0,0)",
+              "text_align": "vertical-center horizontal-center",
+              "image": "shopify://shop_images/3_00d9c034-ef5e-47d7-b940-97449bf42cd0.png",
+              "focal_point": "center center",
+              "mobile_image": "shopify://shop_images/3_208e362a-36c7-4a6d-90b0-499746126aec.png"
+            }
+          }
+        },
+        "block_order": [
+          "image_fMYkDU"
+        ],
+        "name": "Secondary Slider",
+        "settings": {
+          "section_height": "250px",
+          "mobile_height": "200px",
+          "parallax": true,
+          "style": "bars",
+          "autoplay": true,
+          "autoplay_speed": 5
+        }
       }
     },
     "content_for_index": [
@@ -921,7 +959,8 @@
       "text_slider_FnBRfh",
       "testimonials_YHYzxn",
       "1581119895210",
-      "1581120026212"
+      "1581120026212",
+      "horz_slidershow_ETVX3r"
     ]
   },
   "presets": {
