@@ -946,6 +946,20 @@
           "autoplay": true,
           "autoplay_speed": 5
         }
+      },
+      "featured_products_grid_XDUUfU": {
+        "type": "featured-products-grid",
+        "name": "Featured Products Grid",
+        "settings": {
+          "title": "All Products",
+          "products_to_show": 8,
+          "per_row": 4,
+          "enable_gutter": true,
+          "show_add_to_cart": true,
+          "show_view_all": true,
+          "view_all_text": "View All Products",
+          "view_all_style": "primary"
+        }
       }
     },
     "content_for_index": [
@@ -955,10 +969,11 @@
       "slideshow_r4RnAC",
       "1499789718857",
       "text_slider_FnBRfh",
+      "featured_products_grid_XDUUfU",
+      "horz_slidershow_ETVX3r",
       "testimonials_YHYzxn",
       "1581119895210",
-      "1581120026212",
-      "horz_slidershow_ETVX3r"
+      "1581120026212"
     ]
   },
   "presets": {
