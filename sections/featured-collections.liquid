@@ -46,10 +46,24 @@
     {% endif %}
 
   </div>
+
+  {% if section.settings.show_view_all %}
+    <div class="view-all-button-container">
+      <a href="{{ routes.collections_url }}" class="btn {% if section.settings.view_all_style == 'secondary' %}btn--secondary{% endif %}">
+        {{ section.settings.view_all_text }}
+      </a>
+    </div>
+  {% endif %}
 </div>
 
 {% if section.settings.divider %}</div>{% endif %}
 
+<style>
+  .view-all-button-container {
+    margin-top: 30px;
+    text-align: center;
+  }
+</style>
 
 {% schema %}
   {
@@ -83,6 +97,38 @@
         "id": "enable_gutter",
         "label": "Add spacing",
         "default": true
+      },
+      {
+        "type": "header",
+        "content": "View All Button"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_view_all",
+        "label": "Show 'View All' button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "view_all_text",
+        "label": "Button text",
+        "default": "See All Collections"
+      },
+      {
+        "type": "select",
+        "id": "view_all_style",
+        "label": "Button style",
+        "default": "primary",
+        "options": [
+          {
+            "value": "primary",
+            "label": "Primary"
+          },
+          {
+            "value": "secondary",
+            "label": "Secondary"
+          }
+        ]
       }
     ],
     "presets": [{
