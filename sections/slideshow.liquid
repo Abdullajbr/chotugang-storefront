@@ -128,8 +128,9 @@
                 {% endif %}
                 <div class="parallax-container">
                   <div class="hero__image-wrapper">
-                    <div
-                      class="parallax-image hero__image hero__image--{{ block.id }}{% unless hero_text %} hero__image--no-overlay{% endunless %}{% if block.settings.image != blank %} lazyload{% else %} hero__image--svg{% endif %}"
+                    {% comment %} Desktop image {% endcomment %}
+                    <div 
+                      class="parallax-image hero__image hero__image--{{ block.id }}{% unless hero_text %} hero__image--no-overlay{% endunless %}{% if block.settings.image != blank %} lazyload desktop-image{% else %} hero__image--svg{% endif %}"
                       {% if block.settings.image != blank %}
                         data-bgset="{% include 'bgset', image: block.settings.image %}"
                         data-sizes="auto"
@@ -138,10 +139,20 @@
                         {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
                       {% endif %}
                     </div>
+                    
+                    {% comment %} Mobile image {% endcomment %}
+                    {% if block.settings.mobile_image != blank %}
+                    <div 
+                      class="parallax-image hero__image hero__image--{{ block.id }}{% unless hero_text %} hero__image--no-overlay{% endunless %} lazyload mobile-image"
+                      data-bgset="{% include 'bgset', image: block.settings.mobile_image %}"
+                      data-sizes="auto">
+                    </div>
+                    {% endif %}
                   </div>
                 </div>
               {% else %}
                 <div class="hero__image-wrapper{% unless hero_text %} hero__image-wrapper--no-overlay{% endunless %}">
+                  {% comment %} Desktop image {% endcomment %}
                   {% if block.settings.image != blank %}
                     {% style %}
                       .hero__image--{{ block.id }} {
@@ -152,7 +163,7 @@
 
                     {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
-                    <img class="image-fit hero__image hero__image--{{ block.id }} lazyload"
+                    <img class="image-fit hero__image hero__image--{{ block.id }} lazyload desktop-image"
                       src=""
                       data-src="{{ img_url }}"
                       data-aspectratio="{{ block.settings.image.aspect_ratio }}"
@@ -160,12 +171,30 @@
                       data-parent-fit="cover"
                       alt="{{ block.settings.image.alt | escape }}">
                     <noscript>
-                      <img class="image-fit hero__image hero__image--{{ block.id }}"
+                      <img class="image-fit hero__image hero__image--{{ block.id }} desktop-image"
                         src="{{ block.settings.image | img_url: '1400x' }}"
                         alt="{{ block.settings.image.alt | escape }}">
                     </noscript>
                   {% else %}
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg desktop-image' }}
+                  {% endif %}
+                  
+                  {% comment %} Mobile image {% endcomment %}
+                  {% if block.settings.mobile_image != blank %}
+                    {%- assign mobile_img_url = block.settings.mobile_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                    
+                    <img class="image-fit hero__image hero__image--{{ block.id }} lazyload mobile-image"
+                      src=""
+                      data-src="{{ mobile_img_url }}"
+                      data-aspectratio="{{ block.settings.mobile_image.aspect_ratio }}"
+                      data-sizes="auto"
+                      data-parent-fit="cover"
+                      alt="{{ block.settings.mobile_image.alt | escape }}">
+                    <noscript>
+                      <img class="image-fit hero__image hero__image--{{ block.id }} mobile-image"
+                        src="{{ block.settings.mobile_image | img_url: '800x' }}"
+                        alt="{{ block.settings.mobile_image.alt | escape }}">
+                    </noscript>
                   {% endif %}
                 </div>
               {% endif %}
@@ -236,6 +265,20 @@
     </div>
   {% endif %}
 </div>
+
+<style>
+  @media only screen and (max-width: 768px) {
+    .desktop-image {
+      display: none !important;
+    }
+  }
+  
+  @media only screen and (min-width: 769px) {
+    .mobile-image {
+      display: none !important;
+    }
+  }
+</style>
 
 {% schema %}
   {
@@ -446,9 +489,13 @@
             ]
           },
           {
+            "type": "header",
+            "content": "Desktop Image"
+          },
+          {
             "type": "image_picker",
             "id": "image",
-            "label": "Image"
+            "label": "Desktop image"
           },
           {
             "type": "select",
@@ -494,6 +541,16 @@
                 "label": "Bottom right"
               }
             ]
+          },
+          {
+            "type": "header",
+            "content": "Mobile Image (9:16 recommended)"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile image",
+            "info": "If no mobile image is provided, desktop image will be used."
           }
         ]
       }
