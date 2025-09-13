@@ -79,6 +79,7 @@
   .horz-slider {
     position: relative;
     overflow: hidden;
+    margin-bottom: 30px;
   }
 
   .horz-slider-wrapper {
@@ -186,7 +187,59 @@
   .horz-slider .slick-arrow {
     z-index: 10;
   }
+  
+  .horz-slider .slick-prev {
+    left: 10px;
+  }
+  
+  .horz-slider .slick-next {
+    right: 10px;
+  }
 </style>
+
+<script>
+  // Initialize the horizontal slider
+  document.addEventListener('DOMContentLoaded', function() {
+    initHorizontalSliders();
+  });
+
+  function initHorizontalSliders() {
+    $('.horz-slider__container').each(function() {
+      var $slider = $(this);
+      var sliderId = $slider.attr('id');
+      
+      // Get slider settings
+      var autoplay = $slider.data('autoplay') || false;
+      var speed = $slider.data('speed') || 5000;
+      var showArrows = $slider.data('arrows') || false;
+      var showDots = $slider.data('dots') || false;
+      
+      // Initialize slick slider
+      $slider.slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: showArrows,
+        dots: showDots,
+        autoplay: autoplay,
+        autoplaySpeed: speed,
+        fade: true,
+        infinite: true,
+        pauseOnHover: false,
+        cssEase: 'ease',
+        adaptiveHeight: false
+      });
+    });
+  }
+  
+  // Re-initialize sliders when section is reloaded in editor
+  if (Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.target.classList.contains('horz-slider')) {
+        initHorizontalSliders();
+      }
+    });
+  }
+</script>
 
 {% schema %}
 {
