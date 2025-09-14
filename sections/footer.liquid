@@ -71,8 +71,58 @@
       </p>
     {% endif %}
 
+    <!-- Full width footer logo -->
+    {% if section.settings.show_bottom_logo and section.settings.bottom_logo != blank %}
+      <div class="footer__bottom-logo-wrapper">
+        <div class="footer__bottom-logo-container">
+          <img 
+            src="{{ section.settings.bottom_logo | img_url: 'master' }}" 
+            alt="{{ section.settings.bottom_logo_alt | default: shop.name }}"
+            class="footer__bottom-logo"
+            style="max-height: {{ section.settings.bottom_logo_height }}px;"
+            loading="lazy">
+        </div>
+      </div>
+    {% endif %}
+
   </div>
 </footer>
+
+<style>
+  .footer__bottom-logo-wrapper {
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .footer__bottom-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .footer__bottom-logo {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer__bottom-logo-wrapper {
+      margin-top: 30px;
+      padding-top: 20px;
+    }
+    
+    .footer__bottom-logo {
+      max-height: {{ section.settings.bottom_logo_height_mobile }}px !important;
+    }
+  }
+</style>
 
 {% schema %}
   {
@@ -94,6 +144,46 @@
         "type": "text",
         "id": "copyright_text",
         "label": "Additional copyright text"
+      },
+      {
+        "type": "header",
+        "content": "Bottom Footer Logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_bottom_logo",
+        "label": "Show full-width logo at bottom",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "bottom_logo",
+        "label": "Bottom logo image",
+        "info": "Recommended size: 1000px × 200px"
+      },
+      {
+        "type": "text",
+        "id": "bottom_logo_alt",
+        "label": "Logo alt text",
+        "info": "Leave blank to use shop name"
+      },
+      {
+        "type": "range",
+        "id": "bottom_logo_height",
+        "label": "Desktop logo height",
+        "default": 70,
+        "min": 30,
+        "max": 150,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "bottom_logo_height_mobile",
+        "label": "Mobile logo height",
+        "default": 50,
+        "min": 20,
+        "max": 100,
+        "unit": "px"
       }
     ],
     "blocks": [
@@ -233,7 +323,9 @@
       }
     ],
     "default": {
-      "settings": {},
+      "settings": {
+        "show_bottom_logo": true
+      },
       "blocks": [
         {
           "type": "menu",
