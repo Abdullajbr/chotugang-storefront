@@ -172,14 +172,6 @@
               "container_width": 25
             }
           },
-          "1581120082613": {
-            "type": "menu",
-            "settings": {
-              "show_footer_title": false,
-              "menu": "",
-              "container_width": 25
-            }
-          },
           "1494301487048": {
             "type": "logo_social",
             "settings": {
@@ -191,7 +183,6 @@
         },
         "block_order": [
           "1494301487049",
-          "1581120082613",
           "1494301487048"
         ],
         "settings": {
