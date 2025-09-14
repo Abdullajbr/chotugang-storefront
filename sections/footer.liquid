@@ -1,6 +1,5 @@
 <footer class="site-footer">
   <div class="page-width">
-
     <div class="grid">
       {%- assign row_width = 0 -%}
       {% for block in section.blocks %}
@@ -25,7 +24,6 @@
               .footer__item--{{ block.id }} {
                 width: {{ block.settings.container_width }}%;
               }
-
             }
           {% endstyle %}
 
@@ -70,56 +68,46 @@
         {% endif %}
       </p>
     {% endif %}
-
-    <!-- Full width footer logo -->
-    {% if section.settings.show_bottom_logo and section.settings.bottom_logo != blank %}
-      <div class="footer__bottom-logo-wrapper">
-        <div class="footer__bottom-logo-container">
-          <img 
-            src="{{ section.settings.bottom_logo | img_url: 'master' }}" 
-            alt="{{ section.settings.bottom_logo_alt | default: shop.name }}"
-            class="footer__bottom-logo"
-            style="max-height: {{ section.settings.bottom_logo_height }}px;"
-            loading="lazy">
-        </div>
-      </div>
-    {% endif %}
-
   </div>
+
+  <!-- Full width footer logo (outside of page-width) -->
+  {% if section.settings.show_bottom_logo and section.settings.bottom_logo != blank %}
+    <div class="footer__full-width-logo-wrapper">
+      <img 
+        src="{{ section.settings.bottom_logo | img_url: 'master' }}" 
+        alt="{{ section.settings.bottom_logo_alt | default: shop.name }}"
+        class="footer__full-width-logo"
+        loading="lazy">
+    </div>
+  {% endif %}
 </footer>
 
 <style>
-  .footer__bottom-logo-wrapper {
+  /* Full-width logo styling */
+  .footer__full-width-logo-wrapper {
     width: 100%;
     margin-top: 40px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 0;
     text-align: center;
+    background-color: {{ section.settings.bottom_logo_bg | default: 'transparent' }};
+    overflow: hidden;
   }
 
-  .footer__bottom-logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .footer__full-width-logo {
     width: 100%;
-    padding: 10px 0;
-  }
-
-  .footer__bottom-logo {
-    width: auto;
     height: auto;
-    max-width: 100%;
-    object-fit: contain;
+    max-height: {{ section.settings.bottom_logo_height }}px;
+    object-fit: cover;
+    display: block;
   }
 
   @media screen and (max-width: 768px) {
-    .footer__bottom-logo-wrapper {
+    .footer__full-width-logo-wrapper {
       margin-top: 30px;
-      padding-top: 20px;
     }
     
-    .footer__bottom-logo {
-      max-height: {{ section.settings.bottom_logo_height_mobile }}px !important;
+    .footer__full-width-logo {
+      max-height: {{ section.settings.bottom_logo_height_mobile }}px;
     }
   }
 </style>
@@ -147,7 +135,7 @@
       },
       {
         "type": "header",
-        "content": "Bottom Footer Logo"
+        "content": "Full Width Bottom Logo"
       },
       {
         "type": "checkbox",
@@ -159,7 +147,7 @@
         "type": "image_picker",
         "id": "bottom_logo",
         "label": "Bottom logo image",
-        "info": "Recommended size: 1000px × 200px"
+        "info": "Recommended size: 2000px × 300px"
       },
       {
         "type": "text",
@@ -171,19 +159,25 @@
         "type": "range",
         "id": "bottom_logo_height",
         "label": "Desktop logo height",
-        "default": 70,
-        "min": 30,
-        "max": 150,
+        "default": 120,
+        "min": 60,
+        "max": 300,
         "unit": "px"
       },
       {
         "type": "range",
         "id": "bottom_logo_height_mobile",
         "label": "Mobile logo height",
-        "default": 50,
-        "min": 20,
-        "max": 100,
+        "default": 80,
+        "min": 40,
+        "max": 200,
         "unit": "px"
+      },
+      {
+        "type": "color",
+        "id": "bottom_logo_bg",
+        "label": "Logo background color",
+        "default": "transparent"
       }
     ],
     "blocks": [
