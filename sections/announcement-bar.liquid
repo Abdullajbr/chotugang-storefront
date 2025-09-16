@@ -29,6 +29,18 @@
       "unit": "s",
       "label": "Slide Change Speed",
       "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "use_custom_text_color",
+      "label": "Use custom text color",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
     }
   ],
   "blocks": [
@@ -101,7 +113,6 @@
   .announcement-bar {
     width: 100%;
     padding: 10px 0;
-    color: white;
     text-align: center;
     position: relative;
     z-index: 5;
@@ -112,7 +123,9 @@
     margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: white;
+    color: {{ section.settings.use_custom_text_color ? section.settings.text_color : '#000000' }};
+    font-family: 'Josefin Sans', sans-serif;
+    letter-spacing: 0.02em;
   }
   
   .announcement-slider {
