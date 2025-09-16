@@ -148,7 +148,7 @@
     object-fit: cover;
   }
 
-  /* Image slideshow styles */
+  /* Image slideshow styles - Updated for smoother transitions */
   .product-card__image-slideshow {
     position: absolute;
     top: 0;
@@ -157,7 +157,7 @@
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
   }
   
   .product-card:hover .product-card__image-slideshow {
@@ -166,9 +166,14 @@
   }
   
   .product-card__image--slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     opacity: 0;
-    transition: opacity 0.5s ease;
     visibility: hidden;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
   }
   
   .product-card__image--slide.active {
@@ -180,6 +185,7 @@
   .product-card:hover .product-card__image--main {
     opacity: 0;
     visibility: hidden;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
   }
 
   .product-card__info {
@@ -252,9 +258,14 @@
       padding: 6px 8px;
     }
     
-    /* Hide slideshow on mobile since hover doesn't work well */
+    /* Updated mobile slideshow implementation */
     .product-card__image-slideshow {
-      display: none;
+      display: block; /* Show on mobile now */
+    }
+    
+    /* Touch-based slideshow activation for mobile */
+    .product-card__image--main {
+      transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
     }
   }
 </style>
@@ -270,7 +281,7 @@
       if (slides.length <= 1) return;
       
       // Get slideshow speed from data attribute (in milliseconds)
-      const speed = parseInt(slideshow.getAttribute('data-speed')) || 1000;
+      const speed = parseInt(slideshow.getAttribute('data-speed')) || 1500;
       let currentSlide = 0;
       let slideshowInterval = null;
       
@@ -290,7 +301,7 @@
       // Get the parent product card
       const productCard = slideshow.closest('.product-card');
       
-      // Start slideshow on hover
+      // Start slideshow on hover for desktop
       productCard.addEventListener('mouseenter', function() {
         // Reset to first slide
         currentSlide = 0;
@@ -307,6 +318,51 @@
           slideshowInterval = null;
         }
       });
+      
+      // Mobile support - using touch events
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      if (isMobile) {
+        // First touch shows slideshow, second touch navigates to product
+        let isShowingSlideshow = false;
+        
+        productCard.querySelector('.product-card__link').addEventListener('click', function(e) {
+          const mainImage = productCard.querySelector('.product-card__image--main');
+          
+          if (!isShowingSlideshow) {
+            e.preventDefault(); // Prevent navigation on first click
+            
+            // Show slideshow
+            mainImage.style.opacity = 0;
+            mainImage.style.visibility = 'hidden';
+            slideshow.style.opacity = 1;
+            slideshow.style.visibility = 'visible';
+            
+            // Start the slideshow
+            currentSlide = 0;
+            showSlide(currentSlide);
+            slideshowInterval = setInterval(nextSlide, speed);
+            
+            isShowingSlideshow = true;
+            
+            // Auto-reset after 5 seconds of inactivity
+            setTimeout(function() {
+              if (slideshowInterval) {
+                clearInterval(slideshowInterval);
+                slideshowInterval = null;
+              }
+              
+              // Hide slideshow, show main image
+              mainImage.style.opacity = 1;
+              mainImage.style.visibility = 'visible';
+              slideshow.style.opacity = 0;
+              slideshow.style.visibility = 'hidden';
+              
+              isShowingSlideshow = false;
+            }, 5000);
+          }
+          // On second click, navigation happens normally
+        });
+      }
     });
   });
 </script>
