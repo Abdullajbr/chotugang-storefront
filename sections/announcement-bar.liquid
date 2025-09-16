@@ -10,105 +10,6 @@
   </div>
 </div>
 
-{% schema %}
-{
-  "name": "Announcement Bar",
-  "settings": [
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Default Background Color",
-      "default": "#FF0000"
-    },
-    {
-      "type": "range",
-      "id": "slide_speed",
-      "min": 2,
-      "max": 10,
-      "step": 1,
-      "unit": "s",
-      "label": "Slide Change Speed",
-      "default": 5
-    },
-    {
-      "type": "checkbox",
-      "id": "use_custom_text_color",
-      "label": "Use custom text color",
-      "default": false
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#000000"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "announcement",
-      "name": "Announcement",
-      "settings": [
-        {
-          "type": "text",
-          "id": "announcement_text",
-          "label": "Announcement Text",
-          "default": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
-        },
-        {
-          "type": "color",
-          "id": "slide_color",
-          "label": "Slide Background Color",
-          "default": "#FF0000"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Announcement Bar",
-      "category": "Promotional",
-      "blocks": [
-        {
-          "type": "announcement",
-          "settings": {
-            "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨",
-            "slide_color": "#ff1aff"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "announcement_text": "Back-to-School Sale 🎒 Up to 30% OFF!",
-            "slide_color": "#ffff00"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "announcement_text": "Buy 2, Get 1 FREE 👕👕👕",
-            "slide_color": "#ff6b2c"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "announcement_text": "Limited Time Only ⏳ Don't Miss Out!",
-            "slide_color": "#33cfff"
-          }
-        },
-        {
-          "type": "announcement",
-          "settings": {
-            "announcement_text": "New Arrivals Just Dropped 🌈 Shop Now!",
-            "slide_color": "#00c853"
-          }
-        }
-      ]
-    }
-  ]
-}
-{% endschema %}
-
 <style>
   .announcement-bar {
     width: 100%;
@@ -123,15 +24,15 @@
     margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: {{ section.settings.use_custom_text_color ? section.settings.text_color : '#000000' }};
-    font-family: 'Josefin Sans', sans-serif;
+    color: #000000 !important; /* Force black color with !important */
+    font-family: var(--typeHeaderPrimary),var(--typeHeaderFallback) !important; /* Use theme font */
     letter-spacing: 0.02em;
   }
   
   .announcement-slider {
     position: relative;
     overflow: hidden;
-    min-height: 24px; /* Increased height to ensure text is visible */
+    min-height: 24px;
   }
   
   .announcement-slide {
@@ -207,3 +108,90 @@
     }
   });
 </script>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Default Background Color",
+      "default": "#FF0000"
+    },
+    {
+      "type": "range",
+      "id": "slide_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Slide Change Speed",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "announcement_text",
+          "label": "Announcement Text",
+          "default": "Free Shipping on Orders Over Rs. 2,000 🚚✨"
+        },
+        {
+          "type": "color",
+          "id": "slide_color",
+          "label": "Slide Background Color",
+          "default": "#FF0000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "category": "Promotional",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Free Shipping on Orders Over Rs. 2,000 🚚✨",
+            "slide_color": "#ff1aff"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Back-to-School Sale 🎒 Up to 30% OFF!",
+            "slide_color": "#ffff00"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Buy 2, Get 1 FREE 👕👕👕",
+            "slide_color": "#ff6b2c"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "Limited Time Only ⏳ Don't Miss Out!",
+            "slide_color": "#33cfff"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "announcement_text": "New Arrivals Just Dropped 🌈 Shop Now!",
+            "slide_color": "#00c853"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
