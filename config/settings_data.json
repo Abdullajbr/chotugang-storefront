@@ -700,7 +700,7 @@
               "text_align": "vertical-center horizontal-center",
               "image": "shopify://shop_images/2.png",
               "focal_point": "center center",
-              "mobile_image": "shopify://shop_images/2_aecf9ae2-b09e-4406-95ca-48f94597b831.png"
+              "mobile_image": "shopify://shop_images/1_d119c4f8-6720-4a73-819c-31dc16990e80.png"
             }
           },
           "image_D6d6X9": {
@@ -718,7 +718,7 @@
               "text_align": "vertical-center horizontal-center",
               "image": "shopify://shop_images/3_00d9c034-ef5e-47d7-b940-97449bf42cd0.png",
               "focal_point": "center center",
-              "mobile_image": "shopify://shop_images/3_208e362a-36c7-4a6d-90b0-499746126aec.png"
+              "mobile_image": "shopify://shop_images/3_dbff2274-1075-4b00-964c-e6ad6e5f5583.png"
             }
           },
           "image_iLyQEF": {
@@ -736,14 +736,33 @@
               "text_align": "vertical-center horizontal-center",
               "image": "shopify://shop_images/4_bce2baee-d3f4-431e-9837-954dd3d16203.png",
               "focal_point": "center center",
-              "mobile_image": "shopify://shop_images/4_f36a1f73-1c93-48a6-ba44-c28110278be0.png"
+              "mobile_image": "shopify://shop_images/2_e3cc5dcd-3978-4df2-a3a4-3a79339eb41e.png"
+            }
+          },
+          "image_V6Xznx": {
+            "type": "image",
+            "settings": {
+              "top_subheading": "",
+              "title": "",
+              "title_size": 80,
+              "subheading": "",
+              "link": "",
+              "link_text": "",
+              "link_2": "",
+              "link_text_2": "",
+              "color_accent": "#ff4e4e",
+              "text_align": "vertical-center horizontal-center",
+              "image": "shopify://shop_images/3_00d9c034-ef5e-47d7-b940-97449bf42cd0.png",
+              "focal_point": "center center",
+              "mobile_image": "shopify://shop_images/2_e3cc5dcd-3978-4df2-a3a4-3a79339eb41e.png"
             }
           }
         },
         "block_order": [
           "image_TCiihB",
           "image_D6d6X9",
-          "image_iLyQEF"
+          "image_iLyQEF",
+          "image_V6Xznx"
         ],
         "name": "Slideshow",
         "settings": {
