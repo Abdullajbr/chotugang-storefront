@@ -29,7 +29,7 @@
           <a href="{{ product.url | within: collection }}" class="product-card__link">
             <div class="product-card__image-wrapper">
               {% if product.featured_image != blank %}
-                <div class="product-card__image">
+                <div class="product-card__image product-card__image--main">
                   <img class="lazyload"
                       data-src="{{ product.featured_image | img_url: image_size, crop: 'center' }}"
                       data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
@@ -40,6 +40,24 @@
                     <img src="{{ product.featured_image | img_url: image_size, crop: 'center' }}" alt="{{ product.featured_image.alt | escape }}">
                   </noscript>
                 </div>
+                
+                {% if product.images.size > 1 and section.settings.enable_image_slideshow %}
+                  <div class="product-card__image-slideshow" data-speed="{{ section.settings.slideshow_speed }}">
+                    {% for image in product.images %}
+                      <div class="product-card__image product-card__image--slide{% if forloop.first %} active{% endif %}">
+                        <img class="lazyload"
+                            data-src="{{ image | img_url: image_size, crop: 'center' }}"
+                            data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                            data-aspectratio="{{ image.aspect_ratio }}"
+                            data-sizes="auto"
+                            alt="{{ image.alt | escape }}">
+                        <noscript>
+                          <img src="{{ image | img_url: image_size, crop: 'center' }}" alt="{{ image.alt | escape }}">
+                        </noscript>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
               {% else %}
                 {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
               {% endif %}
@@ -130,6 +148,40 @@
     object-fit: cover;
   }
 
+  /* Image slideshow styles */
+  .product-card__image-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+  
+  .product-card:hover .product-card__image-slideshow {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .product-card__image--slide {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    visibility: hidden;
+  }
+  
+  .product-card__image--slide.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Original image handling on hover */
+  .product-card:hover .product-card__image--main {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   .product-card__info {
     padding: 15px 10px;
   }
@@ -199,8 +251,65 @@
       font-size: 12px;
       padding: 6px 8px;
     }
+    
+    /* Hide slideshow on mobile since hover doesn't work well */
+    .product-card__image-slideshow {
+      display: none;
+    }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Find all product slideshows
+    const slideshows = document.querySelectorAll('.product-card__image-slideshow');
+    
+    slideshows.forEach(function(slideshow) {
+      // Get all slides in this slideshow
+      const slides = slideshow.querySelectorAll('.product-card__image--slide');
+      if (slides.length <= 1) return;
+      
+      // Get slideshow speed from data attribute (in milliseconds)
+      const speed = parseInt(slideshow.getAttribute('data-speed')) || 1000;
+      let currentSlide = 0;
+      let slideshowInterval = null;
+      
+      function showSlide(n) {
+        // Hide all slides
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+        // Show the current slide
+        slides[n].classList.add('active');
+      }
+      
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }
+      
+      // Get the parent product card
+      const productCard = slideshow.closest('.product-card');
+      
+      // Start slideshow on hover
+      productCard.addEventListener('mouseenter', function() {
+        // Reset to first slide
+        currentSlide = 0;
+        showSlide(currentSlide);
+        
+        // Start cycling through slides
+        slideshowInterval = setInterval(nextSlide, speed);
+      });
+      
+      // Stop slideshow when mouse leaves
+      productCard.addEventListener('mouseleave', function() {
+        if (slideshowInterval) {
+          clearInterval(slideshowInterval);
+          slideshowInterval = null;
+        }
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
@@ -242,6 +351,26 @@
       "id": "show_add_to_cart",
       "label": "Show Add to Cart button",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product Image Slideshow"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_slideshow",
+      "label": "Enable image slideshow on hover",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slideshow_speed",
+      "label": "Change image every (milliseconds)",
+      "min": 1000,
+      "max": 5000,
+      "step": 500,
+      "default": 1500,
+      "info": "1000 milliseconds = 1 second"
     },
     {
       "type": "header",
